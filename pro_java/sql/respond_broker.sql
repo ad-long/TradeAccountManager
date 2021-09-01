@@ -3,8 +3,8 @@
 
 create table trade_account_manager.respond_broker(
 	id int primary key auto_increment,
-	order_id char(255),
-	traded_id char(255) not null,
+	order_id char(63),
+	traded_id char(63) not null,
 	traded_price float not null,
 	traded_vol float not null,
 	traded_amount float not null,

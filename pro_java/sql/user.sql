@@ -7,7 +7,7 @@ create table trade_account_manager.user(
     enable boolean not null default true,
     is_biller boolean not null default false,
     is_trader boolean not null default false,
-    superior_trader char(255) default null,
+    superior_trader char(63) default null,
     create_time datetime not null default current_timestamp,
     update_time timestamp not null default current_timestamp on
 update
