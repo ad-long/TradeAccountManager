@@ -1,7 +1,7 @@
 spring:
   datasource:  # 配置mysql
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/mydb?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver # mysql 8.0 以下用这个 com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.18.6.204:3306/trade_account_manager?characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 123456
     
