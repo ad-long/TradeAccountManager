@@ -1,6 +1,6 @@
 package com.sunginfo.trade_account_manager.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import com.sunginfo.trade_account_manager.mapper.UserMapper;
@@ -14,8 +14,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> getAllUsers() {
-        return userMapper.getAllUsers();
+    public List<User> getAllUser() {
+        return userMapper.getAllUser();
     }
 
     public User getUser(String name) {

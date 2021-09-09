@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Position {
+    Long id;
     String product_name;
     String cash_name;
     String user_name;

@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.sunginfo.trade_account_manager.model.User;
-import com.sunginfo.trade_account_manager.service.UserService;
+import com.sunginfo.trade_account_manager.model.HisPayment;
+import com.sunginfo.trade_account_manager.service.HisPaymentService;
 import com.sunginfo.trade_account_manager.utils.JsonData;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class HisPaymentController {
     @Autowired
-    UserService userService;
+    HisPaymentService hisPayment;
 
-    @RequestMapping("/user/all")
+    @RequestMapping("/his_payment/all")
     @GetMapping
-    String userAll() {
+    String HisPaymentAll() {
         String result = JsonData.getInit();
         try {
-            List<User> data = userService.getAllUser();
+            List<HisPayment> data = hisPayment.getAllHisPayment();
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -38,12 +38,12 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/byname")
+    @RequestMapping("/his_payment/byid")
     @GetMapping
-    String getUserByName(String name) {
+    String getHisPaymentByName(Long id) {
         String result = JsonData.getInit();
         try {
-            User data = userService.getUser(name);
+            HisPayment data = hisPayment.getHisPaymentById(id);
             if (data == null) {
                 result = JsonData.getResult(true, "{}");
             } else {
@@ -55,14 +55,14 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/bytime")
+    @RequestMapping("/his_payment/bytime")
     @GetMapping
-    String getUserByTime(String create_time) {
+    String getHisPaymentByTime(String create_time) {
         String result = JsonData.getInit();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date ct = sdf.parse(create_time);
-            List<User> data = userService.getUsersByGeTime(ct);
+            List<HisPayment> data = hisPayment.getHisPaymentByGeTime(ct);
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -74,34 +74,24 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/add")
+    @RequestMapping("/his_payment/add")
     @PostMapping
-    void addUser(@RequestBody Map<String, String> payload) {
-        Boolean enable = true;
-        if (payload.containsKey("enable")) {
-            enable = Boolean.parseBoolean(payload.get("enable"));
-        }
-
-        Boolean is_biller = true;
-        if (payload.containsKey("is_biller")) {
-            is_biller = Boolean.parseBoolean(payload.get("is_biller"));
-        }
-
-        Boolean is_trader = true;
-        if (payload.containsKey("is_trader")) {
-            is_trader = Boolean.parseBoolean(payload.get("is_trader"));
-        }
-
-        String superior_trader = "";
-        if (payload.containsKey("superior_trader")) {
-            superior_trader = payload.get("superior_trader");
-        }
-        userService.addUser(payload.get("name"), payload.get("pwd"), enable, is_biller, is_trader, superior_trader);
+    void addHisPayment(@RequestBody Map<String, String> payload) {
+        String product_name = payload.get("product_name");
+        String cash_name = payload.get("cash_name");
+        String user_name = payload.get("user_name");
+        String algo_name = payload.get("algo_name");
+        Float pay_amount = Float.parseFloat(payload.get("pay_amount"));
+        String hold_symbol = payload.get("hold_symbol");
+        Float hold_vol = Float.parseFloat(payload.get("hold_vol"));
+        String hold_flag = payload.get("hold_flag");
+        hisPayment.addHisPayment(product_name, cash_name, user_name, algo_name, pay_amount, hold_symbol, hold_vol,
+                hold_flag);
     }
 
-    @RequestMapping("/user/del")
+    @RequestMapping("/his_payment/del")
     @PostMapping
-    void delUser(@RequestBody Map<String, String> payload) {
-        userService.delUser(payload.get("name"));
+    void delHisPayment(@RequestBody Map<String, String> payload) {
+        hisPayment.delHisPayment(payload.get("name"));
     }
 }

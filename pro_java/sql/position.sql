@@ -2,6 +2,7 @@
 -- drop table if exists trade_account_manager.position;
 
 create table trade_account_manager.position(
+	id int primary key auto_increment,
 	product_name char(63) not null,
 	cash_name char(63) not null,
 	user_name char(63) not null,

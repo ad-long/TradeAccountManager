@@ -4,8 +4,8 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class HisPayments {
-    long id;
+public class HisPayment {
+    Long id;
     String user_name;
     String product_name;
     String cash_name;

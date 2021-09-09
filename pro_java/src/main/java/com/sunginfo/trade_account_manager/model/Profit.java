@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class Profit {
-    long id;
-    String user_name;
+    Long id;
     String product_name;
     String cash_name;
+    String user_name;
     String algo_name;
     String hold_symbol;
     String hold_flag;

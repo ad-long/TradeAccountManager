@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.sunginfo.trade_account_manager.model.User;
-import com.sunginfo.trade_account_manager.service.UserService;
+import com.sunginfo.trade_account_manager.model.Cash;
+import com.sunginfo.trade_account_manager.service.CashService;
 import com.sunginfo.trade_account_manager.utils.JsonData;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class CashController {
     @Autowired
-    UserService userService;
+    CashService cashService;
 
-    @RequestMapping("/user/all")
+    @RequestMapping("/cash/all")
     @GetMapping
-    String userAll() {
+    String CashAll() {
         String result = JsonData.getInit();
         try {
-            List<User> data = userService.getAllUser();
+            List<Cash> data = cashService.getAllCash();
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -38,12 +38,12 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/byname")
+    @RequestMapping("/cash/byname")
     @GetMapping
-    String getUserByName(String name) {
+    String getCashByName(String name) {
         String result = JsonData.getInit();
         try {
-            User data = userService.getUser(name);
+            Cash data = cashService.getCash(name);
             if (data == null) {
                 result = JsonData.getResult(true, "{}");
             } else {
@@ -55,14 +55,14 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/bytime")
+    @RequestMapping("/cash/bytime")
     @GetMapping
-    String getUserByTime(String create_time) {
+    String getCashByTime(String create_time) {
         String result = JsonData.getInit();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date ct = sdf.parse(create_time);
-            List<User> data = userService.getUsersByGeTime(ct);
+            List<Cash> data = cashService.getCashsByGeTime(ct);
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -74,34 +74,31 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/add")
+    @RequestMapping("/cash/add")
     @PostMapping
-    void addUser(@RequestBody Map<String, String> payload) {
+    void addCash(@RequestBody Map<String, String> payload) {
+        Float total = Float.parseFloat(payload.get("total"));
+
+        Float frozen = 0f;
+        if (payload.containsKey("frozen")) {
+            frozen = Float.parseFloat(payload.get("frozen"));
+        }
+
+        Float available = total;
+        if (payload.containsKey("available")) {
+            available = Float.parseFloat(payload.get("available"));
+        }
+
         Boolean enable = true;
         if (payload.containsKey("enable")) {
             enable = Boolean.parseBoolean(payload.get("enable"));
         }
-
-        Boolean is_biller = true;
-        if (payload.containsKey("is_biller")) {
-            is_biller = Boolean.parseBoolean(payload.get("is_biller"));
-        }
-
-        Boolean is_trader = true;
-        if (payload.containsKey("is_trader")) {
-            is_trader = Boolean.parseBoolean(payload.get("is_trader"));
-        }
-
-        String superior_trader = "";
-        if (payload.containsKey("superior_trader")) {
-            superior_trader = payload.get("superior_trader");
-        }
-        userService.addUser(payload.get("name"), payload.get("pwd"), enable, is_biller, is_trader, superior_trader);
+        cashService.addCash(payload.get("name"), payload.get("product_name"), total, frozen, available, enable);
     }
 
-    @RequestMapping("/user/del")
+    @RequestMapping("/cash/del")
     @PostMapping
-    void delUser(@RequestBody Map<String, String> payload) {
-        userService.delUser(payload.get("name"));
+    void delCash(@RequestBody Map<String, String> payload) {
+        cashService.delCash(payload.get("name"));
     }
 }

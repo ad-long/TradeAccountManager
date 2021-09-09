@@ -4,11 +4,11 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class NewPayments {
-    long id;
-    String user_name;
+public class NewPayment {
+    Long id;
     String product_name;
     String cash_name;
+    String user_name;
     String algo_name;
     Float pay_amount;
     String hold_symbol;

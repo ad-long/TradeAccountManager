@@ -8,7 +8,7 @@ import com.sunginfo.trade_account_manager.model.Cash;
 
 public interface CashMapper {
     @Select("select * from cash")
-    List<Cash> getAllCashs();
+    List<Cash> getAllCash();
 
     @Select("select * from cash where name=#{name}")
     Cash getCashByName(String name);

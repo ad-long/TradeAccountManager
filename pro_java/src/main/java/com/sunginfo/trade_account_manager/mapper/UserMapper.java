@@ -8,7 +8,7 @@ import com.sunginfo.trade_account_manager.model.User;
 
 public interface UserMapper {
     @Select("select * from user")
-    List<User> getAllUsers();
+    List<User> getAllUser();
 
     @Select("select * from user where name=#{name}")
     User getUserByName(String name);

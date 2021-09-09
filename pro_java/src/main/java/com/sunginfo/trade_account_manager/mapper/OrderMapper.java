@@ -8,10 +8,19 @@ import com.sunginfo.trade_account_manager.model.Order;
 
 public interface OrderMapper {
     @Select("select * from order")
-    List<Order> getAllOrders();
+    List<Order> getAllOrder();
 
     @Select("select * from order where id=#{id}")
-    Order getOrderById(String id);
+    Order getOrderById(Long id);
+
+    @Select("select * from order where product_name=#{product}")
+    List<Order> getOrderByProduct(String product);
+
+    @Select("select * from order where cash_name=#{cash}")
+    List<Order> getOrderByCash(String cash);
+
+    @Select("select * from order where user_name=#{user}")
+    List<Order> getOrderByUser(String user);
 
     @Select("select * from order where create_time>=#{create_time}")
     List<Order> getOrdersByGeTime(Date create_time);

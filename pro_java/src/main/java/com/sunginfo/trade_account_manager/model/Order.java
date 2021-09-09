@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Order {
-    long id;
+    Long id;
     String product_name;
     String cash_name;
     String user_name;

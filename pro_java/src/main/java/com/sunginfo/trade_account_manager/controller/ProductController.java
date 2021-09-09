@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.sunginfo.trade_account_manager.model.User;
-import com.sunginfo.trade_account_manager.service.UserService;
+import com.sunginfo.trade_account_manager.model.Product;
+import com.sunginfo.trade_account_manager.service.ProductService;
 import com.sunginfo.trade_account_manager.utils.JsonData;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class ProductController {
     @Autowired
-    UserService userService;
+    ProductService productService;
 
-    @RequestMapping("/user/all")
+    @RequestMapping("/product/all")
     @GetMapping
-    String userAll() {
+    String ProductAll() {
         String result = JsonData.getInit();
         try {
-            List<User> data = userService.getAllUser();
+            List<Product> data = productService.getAllProduct();
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -38,12 +38,12 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/byname")
+    @RequestMapping("/product/byname")
     @GetMapping
-    String getUserByName(String name) {
+    String getProductByName(String name) {
         String result = JsonData.getInit();
         try {
-            User data = userService.getUser(name);
+            Product data = productService.getProduct(name);
             if (data == null) {
                 result = JsonData.getResult(true, "{}");
             } else {
@@ -55,14 +55,14 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/bytime")
+    @RequestMapping("/product/bytime")
     @GetMapping
-    String getUserByTime(String create_time) {
+    String getProductByTime(String create_time) {
         String result = JsonData.getInit();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date ct = sdf.parse(create_time);
-            List<User> data = userService.getUsersByGeTime(ct);
+            List<Product> data = productService.getProductsByGeTime(ct);
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -74,34 +74,19 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/add")
+    @RequestMapping("/product/add")
     @PostMapping
-    void addUser(@RequestBody Map<String, String> payload) {
+    void addProduct(@RequestBody Map<String, String> payload) {
         Boolean enable = true;
         if (payload.containsKey("enable")) {
             enable = Boolean.parseBoolean(payload.get("enable"));
         }
-
-        Boolean is_biller = true;
-        if (payload.containsKey("is_biller")) {
-            is_biller = Boolean.parseBoolean(payload.get("is_biller"));
-        }
-
-        Boolean is_trader = true;
-        if (payload.containsKey("is_trader")) {
-            is_trader = Boolean.parseBoolean(payload.get("is_trader"));
-        }
-
-        String superior_trader = "";
-        if (payload.containsKey("superior_trader")) {
-            superior_trader = payload.get("superior_trader");
-        }
-        userService.addUser(payload.get("name"), payload.get("pwd"), enable, is_biller, is_trader, superior_trader);
+        productService.addProduct(payload.get("name"), payload.get("user_superior_trader"), enable);
     }
 
-    @RequestMapping("/user/del")
+    @RequestMapping("/product/del")
     @PostMapping
-    void delUser(@RequestBody Map<String, String> payload) {
-        userService.delUser(payload.get("name"));
+    void delProduct(@RequestBody Map<String, String> payload) {
+        productService.delProduct(payload.get("name"));
     }
 }

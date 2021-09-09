@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.sunginfo.trade_account_manager.model.User;
-import com.sunginfo.trade_account_manager.service.UserService;
+import com.sunginfo.trade_account_manager.model.Cancel;
+import com.sunginfo.trade_account_manager.service.CancelService;
 import com.sunginfo.trade_account_manager.utils.JsonData;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class CancelController {
     @Autowired
-    UserService userService;
+    CancelService cancelService;
 
-    @RequestMapping("/user/all")
+    @RequestMapping("/cancel/all")
     @GetMapping
-    String userAll() {
+    String CancelAll() {
         String result = JsonData.getInit();
         try {
-            List<User> data = userService.getAllUser();
-            if (data == null) {
+            List<Cancel> data = cancelService.getAllCancel();
+            if (data != null) {
                 result = JsonData.getResult(true, "[]");
             } else {
                 result = JsonData.getResult(true, data);
@@ -38,12 +38,12 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/byname")
+    @RequestMapping("/cancel/byid")
     @GetMapping
-    String getUserByName(String name) {
+    String getCancelByName(Long id) {
         String result = JsonData.getInit();
         try {
-            User data = userService.getUser(name);
+            Cancel data = cancelService.getCancel(id);
             if (data == null) {
                 result = JsonData.getResult(true, "{}");
             } else {
@@ -55,14 +55,14 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/bytime")
+    @RequestMapping("/cancel/bytime")
     @GetMapping
-    String getUserByTime(String create_time) {
+    String getCancelByTime(String create_time) {
         String result = JsonData.getInit();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date ct = sdf.parse(create_time);
-            List<User> data = userService.getUsersByGeTime(ct);
+            List<Cancel> data = cancelService.getCancelsByGeTime(ct);
             if (data == null) {
                 result = JsonData.getResult(true, "[]");
             } else {
@@ -74,34 +74,15 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping("/user/add")
+    @RequestMapping("/cancel/add")
     @PostMapping
-    void addUser(@RequestBody Map<String, String> payload) {
-        Boolean enable = true;
-        if (payload.containsKey("enable")) {
-            enable = Boolean.parseBoolean(payload.get("enable"));
-        }
-
-        Boolean is_biller = true;
-        if (payload.containsKey("is_biller")) {
-            is_biller = Boolean.parseBoolean(payload.get("is_biller"));
-        }
-
-        Boolean is_trader = true;
-        if (payload.containsKey("is_trader")) {
-            is_trader = Boolean.parseBoolean(payload.get("is_trader"));
-        }
-
-        String superior_trader = "";
-        if (payload.containsKey("superior_trader")) {
-            superior_trader = payload.get("superior_trader");
-        }
-        userService.addUser(payload.get("name"), payload.get("pwd"), enable, is_biller, is_trader, superior_trader);
+    void addCancel(@RequestBody Map<String, String> payload) {
+        cancelService.addCancel(payload.get("order_id"));
     }
 
-    @RequestMapping("/user/del")
+    @RequestMapping("/cancel/del")
     @PostMapping
-    void delUser(@RequestBody Map<String, String> payload) {
-        userService.delUser(payload.get("name"));
+    void delCancel(@RequestBody Map<String, String> payload) {
+        cancelService.delCancel(payload.get("name"));
     }
 }

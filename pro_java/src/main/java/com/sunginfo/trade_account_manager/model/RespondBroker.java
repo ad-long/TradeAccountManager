@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class RespondBroker {
-    long id;
+    Long id;
     String order_id;
     String traded_id;
     Float traded_price;

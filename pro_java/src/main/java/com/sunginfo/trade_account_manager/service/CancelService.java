@@ -12,25 +12,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class CancelService {
     @Autowired
-    private CancelMapper CancelMapper;
+    private CancelMapper cancelMapper;
 
-    public List<Cancel> getAllCancels() {
-        return CancelMapper.getAllCancels();
+    public List<Cancel> getAllCancel() {
+        return cancelMapper.getAllCancel();
     }
 
-    public Cancel getCancel(String id) {
-        return CancelMapper.getCancelById(id);
+    public Cancel getCancel(Long id) {
+        return cancelMapper.getCancelById(id);
     }
 
     public void addCancel(String order_id) {
-        CancelMapper.addCancel(order_id);
+        cancelMapper.addCancel(order_id);
     }
 
     public List<Cancel> getCancelsByGeTime(Date create_time) {
-        return CancelMapper.getCancelsByGeTime(create_time);
+        return cancelMapper.getCancelsByGeTime(create_time);
     }
 
     public void delCancel(String id) {
-        CancelMapper.delCancelById(id);
+        cancelMapper.delCancelById(id);
     }
 }

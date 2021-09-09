@@ -8,10 +8,10 @@ import com.sunginfo.trade_account_manager.model.Cancel;
 
 public interface CancelMapper {
     @Select("select * from cancel")
-    List<Cancel> getAllCancels();
+    List<Cancel> getAllCancel();
 
     @Select("select * from cancel where id=#{id}")
-    Cancel getCancelById(String id);
+    Cancel getCancelById(Long id);
 
     @Select("select * from cancel where create_time>=#{create_time}")
     List<Cancel> getCancelsByGeTime(Date create_time);

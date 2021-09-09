@@ -8,7 +8,7 @@ import com.sunginfo.trade_account_manager.model.Product;
 
 public interface ProductMapper {
     @Select("select * from product")
-    List<Product> getAllProducts();
+    List<Product> getAllProduct();
 
     @Select("select * from product where name=#{name}")
     Product getProductByName(String name);

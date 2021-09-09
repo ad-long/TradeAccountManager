@@ -3,9 +3,9 @@
 
 create table trade_account_manager.profit(
 	id int primary key auto_increment,
-	user_name char(63) not null,
 	product_name char(63) not null,
 	cash_name char(63) not null,
+	user_name char(63) not null,
 	algo_name char(63) default null,
 	hold_symbol char(255) not null,
 	hold_flag char(255) not null,
